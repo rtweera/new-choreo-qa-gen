@@ -12,3 +12,5 @@ wheels/
 # Env
 .env
 
+# Choreo docs
+choreo-docs/
