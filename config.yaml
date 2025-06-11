@@ -5,7 +5,7 @@ model:
   id: "gemini-2.5-flash-preview-05-20"
   model-type: "chat"
   model-parameters:
-    max-tokens: 2048
-    temperature: 0.7
+    max-tokens: 100000
+    temperature: 0.1
     top-p: 0.9
     top-k: 50

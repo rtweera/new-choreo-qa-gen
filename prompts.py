@@ -23,16 +23,11 @@ You are an expert knowledge extractor. Your task is to analyze an entire documen
 Return your response in the following JSON format:
 ```json
 [
-  {
+  {{
     "question": "Question 1?",
     "answer": "Answer to question 1.",
     "topic": "Topic/section this QA relates to"
-  },
-  {
-    "question": "Question 2?", 
-    "answer": "Answer to question 2.",
-    "topic": "Topic/section this QA relates to"
-  }
+  }}
 ]
 ```
 
@@ -95,4 +90,73 @@ Analyze the content and determine the optimal number of questions needed to cove
 Return only a single number between 1 and 10.
 
 Number of questions:
+""")
+
+
+# Prompt for generating question-answer pairs from an entire  implicit number of questions
+WHOLE_FILE_QA_GENERATION_PROMPT_IMPLICIT_N_QUESTIONS = ChatPromptTemplate.from_template("""
+You are an expert knowledge extractor. Your task is to analyze an entire documentation file and 
+generate comprehensive questions that cover all the content given to you.
+
+# FILE CONTENT
+{content}
+
+# INSTRUCTIONS
+1. First, identify the main topics/sections in this documentation file. Use markdown headings to identify the topics.
+2. For each heading, generate as many as questions you can that thoroughly cover all the information.
+3. Ensure your questions collectively cover ALL the information in the document.
+4. Questions should be clear, specific, and directly answerable from the content.
+5. Do not introduce information that isn't present in the content.
+6. You questions should cover the entire document content, so there shouldn't be any piece of content that is not covered by your questions.
+7. With those questions only, you should get the 100%% of the domain knowledge of the document. 
+8. For each question, provide a comprehensive answer that directly addresses the question based on the content.
+9. You are free to copy the content as much as you like, but align it with the question.
+10. Extract the topic that the question is related to. Use the markdown headings to identify the topic.
+11. Always use the markdown headings to identify the topic of the question.                                                                                                                                                                                                                                                                      
+
+# OUTPUT FORMAT
+Return your response in the following JSON format:
+```json
+[
+  {{
+    "question": "Question 1?",
+    "answer": "Answer to question 1 in a VERY COMPREHENSIVE way.",
+    "topic": "MARKDOWN HEADING the QA relates to "
+  }}
+]
+```
+""")
+
+# Prompt for generating question-answer pairs from an entire  implicit number of questions
+WHOLE_FILE_QA_GENERATION_PROMPT_IMPLICIT_N_QUESTIONS_V2 = ChatPromptTemplate.from_template("""
+You are an expert knowledge extractor. Your task is to analyze an entire documentation file and 
+generate comprehensive questions that cover all the content given to you.
+
+# FILE CONTENT
+{content}
+
+# INSTRUCTIONS
+1. First, identify the main topics/sections in this documentation file. Use markdown headings to identify the topics.
+2. For each heading, generate as many as questions you can that thoroughly cover all the information.
+3. Ensure your questions collectively cover ALL the information in the document.
+4. Questions should be clear, specific, and directly answerable from the content.
+5. Do not introduce information that isn't present in the content.
+6. You questions should cover the entire document content, so there shouldn't be any piece of content that is not covered by your questions.
+7. With those questions only, you should get the 100%% of the domain knowledge of the document. 
+8. For each question, provide a comprehensive answer that directly addresses the question based on the content.
+9. You are free to copy the content as much as you like, but align it with the question.
+10. Extract the topic that the question is related to. Use the markdown headings to identify the topic.
+11. Always use the markdown headings to identify the topic of the question.                                                                                                                                                                                                                                                                      
+
+# OUTPUT FORMAT
+Return your response in the following JSON format:
+```json
+[
+  {{
+    "question": "Question 1?",
+    "answer": "Answer to question 1 in a VERY COMPREHENSIVE way.",
+    "topic": "MARKDOWN HEADING the QA relates to "
+  }}
+]
+```
 """)
