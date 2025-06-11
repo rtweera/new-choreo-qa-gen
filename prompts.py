@@ -129,7 +129,7 @@ Return your response in the following JSON format:
 
 # Prompt for generating question-answer pairs from an entire  implicit number of questions
 WHOLE_FILE_QA_GENERATION_PROMPT_IMPLICIT_N_QUESTIONS_V2 = ChatPromptTemplate.from_template("""
-You are an expert knowledge extractor. Your task is to analyze an entire documentation file and 
+You are an expert knowledge extractor. Your task is to analyze an entire documentation file and
 generate comprehensive questions that cover all the content given to you.
 
 # FILE CONTENT
@@ -138,22 +138,29 @@ generate comprehensive questions that cover all the content given to you.
 # INSTRUCTIONS
 1. First, identify the main topics/sections in this documentation file. Use markdown headings to identify the topics.
 2. For each heading, generate as many as questions you can that thoroughly cover all the information.
-3. Ensure your questions collectively cover ALL the information in the document.
-4. Questions should be clear, specific, and directly answerable from the content.
-5. Do not introduce information that isn't present in the content.
-6. You questions should cover the entire document content, so there shouldn't be any piece of content that is not covered by your questions.
-7. With those questions only, you should get the 100%% of the domain knowledge of the document. 
-8. For each question, provide a comprehensive answer that directly addresses the question based on the content.
-9. You are free to copy the content as much as you like, but align it with the question.
-10. Extract the topic that the question is related to. Use the markdown headings to identify the topic.
-11. Always use the markdown headings to identify the topic of the question.                                                                                                                                                                                                                                                                      
+3. When generating questions, ensure that you can understand the what the question is asking without needing to refer back to the content
+   for specific context. 
+    EX:
+    i. - Bad Question: "What is the content of this section?"
+       - Good Question: "What is the purpose of the section on 'User Authentication'?"                 
+    ii. - Bad Question: "How to search for service?"
+        - Good Question: "How to search for a service in the `Choreo marketplace` interface?"                                                                                                                                                                                                                                                  
+4. Ensure your questions collectively cover ALL the information in the document.
+5. Questions should be clear, specific, and directly answerable from the content.
+6. Do not introduce information that isn't present in the content.
+7. You questions should cover the entire document content, so there shouldn't be any piece of content that is NOT covered by your questions.
+8. With those questions only, you should get the 100%% of the domain knowledge of the document. 
+9. For each question, provide a comprehensive answer that directly addresses the question based on the content.
+10. You are free to copy the content as much as you like, but it should be RELEVANT and align it with the question.
+11. Extract the topic that the question is related to.
+12. Always use the markdown headings to identify the topic of the question.                                                                                                                                                                                                                                                                      
 
 # OUTPUT FORMAT
 Return your response in the following JSON format:
 ```json
 [
   {{
-    "question": "Question 1?",
+    "question": "Question 1 WITH some CONTEXT?",
     "answer": "Answer to question 1 in a VERY COMPREHENSIVE way.",
     "topic": "MARKDOWN HEADING the QA relates to "
   }}

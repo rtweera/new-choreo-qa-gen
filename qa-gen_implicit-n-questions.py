@@ -23,7 +23,7 @@ from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 
 # Local imports
-from prompts import WHOLE_FILE_QA_GENERATION_PROMPT_IMPLICIT_N_QUESTIONS
+from prompts import WHOLE_FILE_QA_GENERATION_PROMPT_IMPLICIT_N_QUESTIONS_V2
 
 # Set up logging
 logging.basicConfig(
@@ -104,7 +104,7 @@ class SimpleMarkdownQAGenerator:
             logger.info(f"Estimated {num_questions} questions for {file_path}")
             # Generate QA pairs for the entire file
             response = self.llm.invoke(
-                WHOLE_FILE_QA_GENERATION_PROMPT_IMPLICIT_N_QUESTIONS.format(
+                WHOLE_FILE_QA_GENERATION_PROMPT_IMPLICIT_N_QUESTIONS_V2.format(
                     content=content,
                 )
             )
