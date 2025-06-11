@@ -3,6 +3,98 @@ Prompts for QA generation from markdown content.
 """
 from langchain.prompts import ChatPromptTemplate
 
+# New prompt for user-centric question generation
+USER_CENTRIC_QA_GENERATION_PROMPT = ChatPromptTemplate.from_template("""
+You are an expert knowledge assistant who understands documentation content deeply and can generate question-answer pairs that reflect how real users would ask questions.
+
+# FILE CONTENT
+{content}
+
+# INSTRUCTIONS
+1. Read and understand the entire document content.
+2. Generate questions from a user's perspective - how would a real user ask about this information?
+3. Questions should be natural, conversational, and focused on solving real problems or understanding concepts.
+4. You can combine information from different sections/headings when it makes sense for a comprehensive answer.
+5. Ensure your questions and answers collectively cover all important information in the document.
+6. Each question should be self-contained and make sense without needing additional context.
+7. Answers must be accurate and directly supported by the document content.
+8. For each question, identify which topic/section it relates to most (use heading names when possible).
+9. Generate as many question-answer pairs as possible.
+
+# EXAMPLES OF GOOD QUESTIONS:
+- "How do I set up authentication for my Choreo application?"
+- "What's the difference between the Free and Standard pricing tiers?"
+- "Can I connect Choreo to my existing databases?"
+- "What steps do I need to follow to deploy my first API?"
+
+# EXAMPLES OF BAD QUESTIONS:
+- "What does this document say about authentication?" (Too vague and doesn't reflect how users actually ask)
+- "According to section 3.2, what are the pricing tiers?" (References document structure instead of focusing on user needs)
+                                                                     
+# OUTPUT FORMAT
+Return your response in the following JSON format:
+```json
+[
+  {{
+    "question": "A natural question a user would ask?",
+    "answer": "A comprehensive answer that directly addresses the question.",
+    "topic": "The main topic/heading this question relates to"
+  }}
+]
+```
+
+Generate user-centric question-answer pairs:
+""")
+
+# New prompt for user-centric question generation
+USER_CENTRIC_QA_GENERATION_PROMPT_V2 = ChatPromptTemplate.from_template("""
+You are an expert knowledge assistant who understands documentation content deeply and can generate highly practical, scenario-based question-answer pairs that reflect how real users would seek help for specific tasks using specific technologies, frameworks, or real-world scenarios.
+
+# FILE CONTENT
+{content}
+
+# INSTRUCTIONS
+1. Read and understand the entire document content with a focus on practical application.
+2. Generate questions from a user's perspective, imagining they are trying to accomplish a specific task or integrate a particular technology. Whenever possible, make the questions specific to a technology, framework, language, or real-world use case. For example, instead of "How to deploy a webapp?", ask "How do I deploy my Python FastAPI app on Choreo?" or "What are the steps to connect a React frontend to a Choreo-hosted API?".
+3. Avoid generic or domain-knowledge-only questions. Focus on practical, actionable, and scenario-based questions that a real user would ask when trying to solve a problem or build something concrete.
+4. You can combine information from different sections/headings when it makes sense for a comprehensive answer to a practical question.
+5. Ensure your questions and answers collectively cover important practical information in the document.
+6. Each question should be self-contained and make sense without needing additional context, ideally framed as a specific user problem.
+7. Answers must be accurate, actionable, and directly supported by the document content.
+8. For each question, identify which topic/section it relates to most (use heading names when possible).
+9. Generate as many such practical, technology-specific, scenario-based question-answer pairs as possible.
+
+# EXAMPLES OF GOOD QUESTIONS (PRACTICAL, SPECIFIC, AND TECHNOLOGY-FOCUSED):
+- "How do I deploy my Python FastAPI application on Choreo and expose its endpoints?"
+- "What are the specific steps to connect my existing PostgreSQL database to a service running in Choreo?"
+- "I need to set up OAuth2 for my Node.js API in Choreo; what's the recommended way?"
+- "What's the process for monitoring the resource usage of my Java Spring Boot microservice in Choreo?"
+- "How can I configure environment-specific variables for my Docker container deployed on Choreo?"
+- "How do I connect a React frontend to an API deployed on Choreo?"
+- "How can I automate deployments for a Go microservice using Choreo's CI/CD pipeline?"
+
+# EXAMPLES OF BAD QUESTIONS (TOO GENERAL OR DOMAIN-KNOWLEDGE FOCUSED):
+- "What is Choreo?" (Too broad)
+- "Explain CI/CD in Choreo." (Asks for explanation, not a practical problem)
+- "What does this document say about authentication?" (Too vague, not task-oriented)
+- "According to section 3.2, what are the pricing tiers?" (References document structure, not a user's practical need)
+- "How do I deploy a webapp in Choreo?" (Too generic; should specify the type of app, e.g., Python FastAPI, Node.js, etc.)
+
+# OUTPUT FORMAT
+Return your response in the following JSON format:
+```json
+[
+  {{
+    "question": "A practical, specific question a user would ask?",
+    "answer": "A comprehensive, actionable answer that directly addresses the question.",
+    "topic": "The main topic/heading this question relates to"
+  }}
+]
+```
+
+Generate practical, user-centric, technology-specific question-answer pairs:
+""")
+
 # Prompt for generating question-answer pairs from an entire file
 WHOLE_FILE_QA_GENERATION_PROMPT = ChatPromptTemplate.from_template("""
 You are an expert knowledge extractor. Your task is to analyze an entire documentation file and generate comprehensive question-answer pairs that cover all the important topics and content.
