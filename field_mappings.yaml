@@ -1,0 +1,9 @@
+field_mappings:
+  question: question
+  answer: answer
+  # source: src  # Example: uncomment to map 'source' to 'src'
+  # topic: topic # If omitted, 'topic' will be copied as-is
+
+
+# NOTE: field mapping are defined as from csv to jsonl
+# If u want to map jsonl to csv, note that reverse mapping is applied
